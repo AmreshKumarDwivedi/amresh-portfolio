@@ -13,9 +13,5 @@ services:
       - key: SECRET_KEY
         generateValue: true
       - key: DATABASE_PATH
-        value: /var/data/data.db
-    disk:
-      name: data
-      mountPath: /var/data
-      sizeGB: 1                 # Free 1 GB persistent disk for SQLite (only on paid plans)
+        value: ./data.db        # Free tier: local SQLite, resets on redeploy
     healthCheckPath: /healthz
