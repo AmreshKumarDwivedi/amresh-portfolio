@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: amresh-portfolio
+    runtime: python
+    plan: free        # FREE tier — $0/month, sleeps after 15 min idle
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --workers 2 --threads 4 --timeout 60 --bind 0.0.0.0:$PORT
+    envVars:
+      - key: ADMIN_USER
+        value: admin
+      - key: ADMIN_PASS
+        generateValue: true     # Render auto-generates a strong password (visible in dashboard)
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_PATH
+        value: /var/data/data.db
+    disk:
+      name: data
+      mountPath: /var/data
+      sizeGB: 1                 # Free 1 GB persistent disk for SQLite (only on paid plans)
+    healthCheckPath: /healthz
